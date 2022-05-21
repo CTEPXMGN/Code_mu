@@ -32,7 +32,7 @@ function getInt() {
     return result;
 }
 // Получаем минимальный делитель
-function getMinDivisor(arr) {
+function getMinDivisor() {
     let minDivisor = Math.max.apply(null, getInt());
     return minDivisor;
 }
