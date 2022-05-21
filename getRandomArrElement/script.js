@@ -7,8 +7,17 @@ function getRandomInt(min, max) {
 
 // Получаем случайное число из массива
 function random(arr) {
-    let key = getRandomInt(0, arr.length - 1);
-    console.log(arr[key]);
+    return arr[getRandomInt(0, arr.length - 1)];
 }
 
-random(arr)
+// Получаем сумму трёх случайных элементов
+function sumOfElements() {
+    let sum = 0;
+    for (let i = 0; i < 3; i++) {
+        sum += random(arr);
+    }
+    
+    return sum;
+}
+
+console.log('Сумма случайных элементов массива: ' + sumOfElements(random(arr)));
