@@ -1,0 +1,19 @@
+li {
+	width: 20px;
+	height: 20px;
+	border: 1px solid rgb(199, 199, 199);
+	text-align: center;
+	list-style-type: none;
+	display: inline;
+	margin-right: 5px;
+	padding: 0 5px;
+}
+
+h1 {
+	text-align: center;
+}
+
+div {
+	width: 100%;
+	align-content: space-around;
+}
