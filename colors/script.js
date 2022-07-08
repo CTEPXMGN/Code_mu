@@ -15,11 +15,15 @@ for (let i = 0; i < rows; i++) {
 		let td = document.createElement('td');
         let color = randomColor(colors);
         td.classList.add(color);
-        td.addEventListener('click', function(colors, color) {
-            if (this.classList.contains('green')) {
-                this.classList.remove('green');
-                this.classList.add('blue');''
+        td.addEventListener('click', function() {
+            let col = this.classList.value;
+            let i = colors.indexOf(col);
+            this.classList.remove(colors[i]);
+            i += 1;
+            if (i == 3) {
+                i = 0;
             }
+            this.classList.add(colors[i]);
         })
 		tr.appendChild(td);
 	}
