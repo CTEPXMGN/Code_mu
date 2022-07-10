@@ -24,8 +24,18 @@ for (let i = 0; i < rows; i++) {
                 i = 0;
             }
             this.classList.add(colors[i]);
+            let tds = document.querySelectorAll('td');
+            j = 1;
+            for (const td of tds) {
+                if (this.classList.value == col) {
+                    j++;
+                    console.log(j);
+                }
+            }
+            console.log(col);
         })
 		tr.appendChild(td);
+        
 	}
 	table.appendChild(tr);
 }
