@@ -16,12 +16,16 @@ function range(count) {
 }
 
 function getLastDay(year, month) {
-	let lastDays = [31, 28, 31, 30, 31, 30, 31, 
-		31, 30, 31, 30, 31]; 
-	
-	if (month != 1) {
-		return lastDays[month];
-	} else {
-		return new Date(year, month + 1, 0);
-	}
+	return new Date(year, month + 1, 0).getDate();
 }
+
+function getFirstWeekDay(year, month) {
+	return new Date(year, month, 1).getDay();
+}
+
+function getLastWeekDay(year, month) {
+	return new Date(year, month, getLastDay(year, month)).getDay();
+}
+
+console.log(getFirstWeekDay(year, month));
+console.log(getLastWeekDay(year, month));
