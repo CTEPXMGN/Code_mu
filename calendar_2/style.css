@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #parent {
 	text-align: center;
 }
@@ -9,16 +8,4 @@
 	padding: 5px 12px;
 	border: 1px solid black;
 	text-align: center;
-=======
-#parent {
-	text-align: center;
-}
-#calendar {
-	display: inline-block;
-}
-#calendar td, #calendar th {
-	padding: 5px 12px;
-	border: 1px solid black;
-	text-align: center;
->>>>>>> ecb9cd0ad91f7c1429863ca3d839a833eb4674c4
 }

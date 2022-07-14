@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 let calendar = document.querySelector('#calendar');
 let body = calendar.querySelector('.body');
 
 let date  = new Date();
 let year  = date.getFullYear();
 let month = date.getMonth();
-// month = 6;
-// let count = 15;
-
+// Создаём массив
 function range(count) {
 	let arrayOfDays = [];
 	for (let i = 1; i <= count; i++) {
@@ -15,11 +12,11 @@ function range(count) {
 	}
 	return arrayOfDays;
 }
-
+// Получаем последний день месяца
 function getLastDay(year, month) {
 	return new Date(year, month + 1, 0).getDate();
 }
-
+// Получаем номер дня недели первого числа
 function getFirstWeekDay(year, month) {
 	let date = new Date(year, month, 1);
 	let num  = date.getDay();
@@ -30,7 +27,7 @@ function getFirstWeekDay(year, month) {
 		return num - 1;
 	}
 }
-
+// Получаем номер дня недели последнего числа
 function getLastWeekDay(year, month) {
 	let date = new Date(year, month + 1, 0);
 	let num  = date.getDay();
@@ -41,11 +38,7 @@ function getLastWeekDay(year, month) {
 		return num - 1;
 	}
 }
-
-let arr = range(getLastDay(year, month));
-let firstWeekDay = getFirstWeekDay(year, month);
-let lastWeekDay  = getLastWeekDay(year, month);
-
+// Добавляем пустые строки в массив
 function normalize(arr, left, right) {
 	for (let i = 0; i < left; i++) {
 		arr.unshift('');
@@ -55,7 +48,7 @@ function normalize(arr, left, right) {
 	}
 	return arr;
 }
-
+// Получаем двухмерный массив
 function chunk(arr, n) {
 	let result = [];
 	let count = arr.length / n;
@@ -68,41 +61,25 @@ function chunk(arr, n) {
 	return result;
 }
 
-let res = chunk(normalize(arr, firstWeekDay, 6 - lastWeekDay), 7); 
-console.log(res);
+function createTable(parent, arr) {
+	for (const item of arr) {
+		let tr = document.createElement('tr');
 
-console.log(firstWeekDay);
-console.log(lastWeekDay);
-=======
-let calendar = document.querySelector('#calendar');
-let body = calendar.querySelector('.body');
-
-let date  = new Date();
-let year  = date.getFullYear();
-let month = date.getMonth();
-
-let count = 15;
-
-function range(count) {
-	let arrayOfDays = [];
-	for (let i = 1; i <= count; i++) {
-		arrayOfDays.push(i);
+		for (const subItem of item) {
+			let td = document.createElement('td');
+			td.innerHTML = subItem;
+			tr.appendChild(td);
+		}
+		parent.appendChild(tr);
 	}
-	return arrayOfDays;
 }
 
-function getLastDay(year, month) {
-	return new Date(year, month + 1, 0).getDate();
+function draw(body, year, month) {
+	let arr = range(getLastDay(year, month));
+	let firstWeekDay = getFirstWeekDay(year, month);
+	let lastWeekDay  = getLastWeekDay(year, month);
+	let nums = chunk(normalize(arr, firstWeekDay, 6 - lastWeekDay), 7);
+	createTable(body, nums);
 }
 
-function getFirstWeekDay(year, month) {
-	return new Date(year, month, 1).getDay();
-}
-
-function getLastWeekDay(year, month) {
-	return new Date(year, month, getLastDay(year, month)).getDay();
-}
-
-console.log(getFirstWeekDay(year, month));
-console.log(getLastWeekDay(year, month));
->>>>>>> ecb9cd0ad91f7c1429863ca3d839a833eb4674c4
+draw(body, year, month);
