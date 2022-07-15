@@ -1,9 +1,16 @@
 let calendar = document.querySelector('#calendar');
 let body = calendar.querySelector('.body');
+let info = document.querySelector('.info');
 
 let date  = new Date();
 let year  = date.getFullYear();
 let month = date.getMonth();
+let months = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб', 'Дек'];
+let prev = calendar.querySelector('.prev');
+let next = calendar.querySelector('.next');
+
+info.textContent = months[month] + ' ' + year;
+
 // Создаём массив
 function range(count) {
 	let arrayOfDays = [];
@@ -83,3 +90,8 @@ function draw(body, year, month) {
 }
 
 draw(body, year, month);
+
+next.addEventListener('click', function() {
+	draw(body, getNextYear(year, month), getNextMonth(month));
+});
+
