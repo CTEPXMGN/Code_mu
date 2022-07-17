@@ -1,27 +1,52 @@
 let calendar = document.querySelector('#calendar');
 let body = calendar.querySelector('.body');
 let info = document.querySelector('.info');
+let prev = calendar.querySelector('.prev');
+let next = calendar.querySelector('.next');
+let months = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб', 'Дек'];
+
 
 let date  = new Date();
 let year  = date.getFullYear();
 let month = date.getMonth();
-let months = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб', 'Дек'];
-let prev = calendar.querySelector('.prev');
-let next = calendar.querySelector('.next');
-
 info.textContent = months[month] + ' ' + year;
+draw(body, year, month);
 
-// Создаём массив
-function range(count) {
-	let arrayOfDays = [];
-	for (let i = 1; i <= count; i++) {
-		arrayOfDays.push(i);
-	}
-	return arrayOfDays;
+// Рисуем календарь
+function draw(body, year, month) {
+	let arr = range(getLastDay(year, month));
+	let firstWeekDay = getFirstWeekDay(year, month);
+	let lastWeekDay  = getLastWeekDay(year, month);
+	let nums = chunk(normalize(arr, firstWeekDay, 6 - lastWeekDay), 7);
+	createTable(body, nums);
 }
-// Получаем последний день месяца
-function getLastDay(year, month) {
-	return new Date(year, month + 1, 0).getDate();
+// Создаём таблицу
+function createTable(parent, arr) {
+	parent.innerHTML = '';
+	let cells = [];
+	
+	for (let sub of arr) {
+		let tr = document.createElement('tr');
+		
+		for (let num of sub) {
+			let td = document.createElement('td');
+			td.innerHTML = num;
+			tr.appendChild(td);
+			cells.push(td);
+		}
+		parent.appendChild(tr);
+	}
+	return cells;
+}
+// Добавляем пустые строки в массив
+function normalize(arr, left, right) {
+	for (let i = 0; i < left; i++) {
+		arr.unshift('');
+	}
+	for (let i = 0; i < right; i++) {
+		arr.push('');
+	}
+	return arr;
 }
 // Получаем номер дня недели первого числа
 function getFirstWeekDay(year, month) {
@@ -45,15 +70,17 @@ function getLastWeekDay(year, month) {
 		return num - 1;
 	}
 }
-// Добавляем пустые строки в массив
-function normalize(arr, left, right) {
-	for (let i = 0; i < left; i++) {
-		arr.unshift('');
+// Получаем последний день месяца
+function getLastDay(year, month) {
+	return new Date(year, month + 1, 0).getDate();
+}
+// Создаём массив
+function range(count) {
+	let arrayOfDays = [];
+	for (let i = 1; i <= count; i++) {
+		arrayOfDays.push(i);
 	}
-	for (let i = 0; i < right; i++) {
-		arr.push('');
-	}
-	return arr;
+	return arrayOfDays;
 }
 // Получаем двухмерный массив
 function chunk(arr, n) {
@@ -64,34 +91,45 @@ function chunk(arr, n) {
 		let elems = arr.splice(0, n);
 		result.push(elems);
 	}
-	
 	return result;
 }
-
-function createTable(parent, arr) {
-	for (const item of arr) {
-		let tr = document.createElement('tr');
-
-		for (const subItem of item) {
-			let td = document.createElement('td');
-			td.innerHTML = subItem;
-			tr.appendChild(td);
-		}
-		parent.appendChild(tr);
+// Получаем следующий месяц
+function getNextMonth(month) {
+	month += 1;
+	info.textContent = months[month] + ' ' + year;
+	if (month == 12) {
+		month = 0;
 	}
+	return month;
 }
-
-function draw(body, year, month) {
-	let arr = range(getLastDay(year, month));
-	let firstWeekDay = getFirstWeekDay(year, month);
-	let lastWeekDay  = getLastWeekDay(year, month);
-	let nums = chunk(normalize(arr, firstWeekDay, 6 - lastWeekDay), 7);
-	createTable(body, nums);
+// Получаем следующий год
+function getNextYear(year, month) {
+	if (month == 11) {
+		return year + 1;
+	}
+	return year;
 }
-
-draw(body, year, month);
+// Получаем предыдущий месяц
+function getPrevMonth(month) {
+	month -= 1;
+	info.textContent = months[month] + ' ' + year;
+	if (month == -1) {
+		month = 11;
+	}
+	return month;
+}
+// Получаем предыдущий год
+function getPrevYear(year, month) {
+	if (month == 11) {
+		return year - 1;
+	}
+	return year;
+}
 
 next.addEventListener('click', function() {
+	body.innerHTML = '';
 	draw(body, getNextYear(year, month), getNextMonth(month));
 });
-
+prev.addEventListener('click', function() {
+	draw(body, getPrevYear(year, month), getPrevMonth(month));
+});
